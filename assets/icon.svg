@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Маршруты">
+  <rect width="120" height="120" rx="32" fill="#F7F1E8"/>
+  <circle cx="40" cy="78" r="20" fill="none" stroke="#2F5D50" stroke-width="8"/>
+  <circle cx="82" cy="78" r="20" fill="none" stroke="#2F5D50" stroke-width="8"/>
+  <path d="M40 78l16-34h16l10 34M56 44l-6 34h32M50 44h-10" fill="none" stroke="#9C6F43" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M73 35c10-11 27-4 27 11 0 18-27 34-27 34S46 64 46 46c0-15 17-22 27-11z" fill="#2F5D50" opacity=".16"/>
+</svg>
