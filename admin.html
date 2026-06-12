@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Админка маршрутов</title>
+  <style>
+    :root { font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #27231f; background: #f7f1e8; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 16px; }
+    main { width: min(100%, 760px); margin: 0 auto; }
+    h1 { font-size: 32px; line-height: 1; letter-spacing: -.04em; margin: 12px 0; }
+    p { color: #756b61; line-height: 1.45; }
+    .panel { background: #fffaf3; border: 1px solid rgba(45,39,33,.12); border-radius: 24px; padding: 16px; box-shadow: 0 16px 40px rgba(45,39,33,.1); }
+    textarea { width: 100%; min-height: 62vh; border: 1px solid rgba(45,39,33,.16); border-radius: 18px; padding: 14px; font: 13px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; resize: vertical; }
+    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+    button, a { min-height: 46px; border: 0; border-radius: 999px; display: grid; place-items: center; font-weight: 850; text-decoration: none; }
+    button { background: #2f5d50; color: white; }
+    a { background: #eadbc8; color: #3b3025; }
+    .message { min-height: 24px; margin-top: 10px; font-weight: 800; }
+    .ok { color: #2f5d50; } .bad { color: #a23b3b; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Редактор маршрутов</h1>
+    <p>Это простая статическая админка для MVP. Она не сохраняет файл на сервере сама: вы редактируете JSON, проверяете его и скачиваете обновлённый <code>routes.json</code>, затем заменяете файл в папке <code>data</code>.</p>
+    <section class="panel">
+      <textarea id="jsonEditor" spellcheck="false" aria-label="JSON маршрутов"></textarea>
+      <div class="actions">
+        <button id="validateButton" type="button">Проверить JSON</button>
+        <a id="downloadButton" href="#" download="routes.json">Скачать routes.json</a>
+      </div>
+      <div class="message" id="message" aria-live="polite"></div>
+    </section>
+  </main>
+  <script>
+    const editor = document.querySelector('#jsonEditor');
+    const message = document.querySelector('#message');
+    const download = document.querySelector('#downloadButton');
+
+    fetch('data/routes.json', { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => {
+        editor.value = JSON.stringify(data, null, 2);
+        updateDownload();
+      })
+      .catch(() => {
+        message.textContent = 'Не удалось загрузить data/routes.json. Откройте страницу через локальный сервер или хостинг.';
+        message.className = 'message bad';
+      });
+
+    document.querySelector('#validateButton').addEventListener('click', () => {
+      try {
+        const data = JSON.parse(editor.value);
+        for (const key of ['meta', 'categories', 'points', 'routes']) {
+          if (!data[key]) throw new Error('Нет обязательного поля: ' + key);
+        }
+        updateDownload();
+        message.textContent = 'JSON корректный. Можно скачивать файл.';
+        message.className = 'message ok';
+      } catch (err) {
+        message.textContent = err.message;
+        message.className = 'message bad';
+      }
+    });
+
+    editor.addEventListener('input', updateDownload);
+
+    function updateDownload() {
+      const blob = new Blob([editor.value], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      download.href = url;
+    }
+  </script>
+</body>
+</html>
