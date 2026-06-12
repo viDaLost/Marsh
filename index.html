@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#F7F1E8" />
+  <meta name="theme-color" content="#ECFDF5" />
   <meta name="description" content="Готовые веломаршруты по побережью: фототочки, туалеты, парковки, кофе и навигация." />
   <title>Маршруты — велопрокат</title>
   <link rel="preconnect" href="https://unpkg.com" crossorigin>
@@ -38,6 +38,7 @@
       </section>
 
       <div class="status-strip" role="list" aria-label="Что есть в сервисе">
+        <span role="listitem">🧭 линия маршрута</span>
         <span role="listitem">📍 точки</span>
         <span role="listitem">🚻 туалеты</span>
         <span role="listitem">☕ перекус</span>
@@ -61,13 +62,16 @@
         <div class="section-head compact">
           <div>
             <p class="section-kicker">Карта</p>
-            <h2 id="mapTitle">Точки на побережье</h2>
+            <h2 id="mapTitle">Маршрут прямо на карте</h2>
           </div>
           <button class="ghost-button" type="button" id="locateButton">Я рядом</button>
         </div>
         <div class="filters" id="filters" aria-label="Фильтры точек"></div>
-        <div id="map" class="map" role="application" aria-label="Интерактивная карта маршрутов"></div>
-        <div class="map-note" id="mapNote">Нажмите на точку, чтобы открыть совет, парковку и Яндекс.Карты.</div>
+        <div class="map-wrap">
+          <div id="map" class="map" role="application" aria-label="Интерактивная карта маршрутов"></div>
+          <div class="map-route-panel" id="mapRoutePanel" aria-live="polite"></div>
+        </div>
+        <div class="map-note" id="mapNote">Выберите маршрут — линия появится на карте, а кнопка «Поехать» откроет веломаршрут в Яндекс.Картах.</div>
       </section>
 
       <section class="section" id="howItWorks">
@@ -80,7 +84,7 @@
         <div class="feature-list">
           <article><strong>1 маршрут бесплатно</strong><span>Гость сразу получает пользу и доверие к сервису.</span></article>
           <article><strong>Полный доступ по коду</strong><span>После оплаты на стойке или онлайн клиент вводит код и открывает всё.</span></article>
-          <article><strong>Данные отдельно</strong><span>Маршруты, кафе, туалеты и советы лежат в <code>data/routes.json</code>.</span></article>
+          <article><strong>Данные отдельно</strong><span>Маршруты, линии на карте, кафе, туалеты и советы лежат в <code>data/routes.json</code>.</span></article>
         </div>
       </section>
     </main>
